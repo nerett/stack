@@ -8,7 +8,7 @@ This section isn't done yet.
 This section isn't done yet.
 
 ## Documentation
-https://nerett.github.io/onegin/
+This section isn't done yet.
 
 ## About project
 This programm was written during MIPT **Ded's** cource.
