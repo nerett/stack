@@ -2,3 +2,5 @@
 /obj
 stack.cbp
 stack.layout
+/Debug
+compile_run.sh

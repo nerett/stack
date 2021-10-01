@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1632754787 source:/home/shob/Dev/ILab+Huawei/stack/main.cpp
+	"stack.h"
+
+1632755286 source:/home/shob/Dev/ILab+Huawei/stack/stack.cpp
+	"stack.h"
+
+1632755301 /home/shob/Dev/ILab+Huawei/stack/stack.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<assert.h>
+
