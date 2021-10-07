@@ -21,10 +21,13 @@ void stack_push( Stack* some_stack, int value, err_code* error_variable ) //ес
 	}
 
     stack_resize( some_stack, error_variable );
+	void_check_errors( error_variable );
+	/*
 	if( error_variable != NULL && *error_variable != OK ) //макрос
 	{
 		return;
 	}
+	*/
 
 	some_stack->N_element++;
 
@@ -54,10 +57,13 @@ int stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO ошибк�
 
 	if( some_stack->max_capacity < some_stack->N_element )
 	{
+		error_output( error_variable, NO_ELEMENTS_TO_POP );
+		/*
 		if( error_variable != NULL )
 		{
 			*error_variable = NO_ELEMENTS_TO_POP;
 		}
+		*/
 		return {};
 	}
 
@@ -66,10 +72,13 @@ int stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO ошибк�
 	some_stack->N_element--;
 
 	stack_resize( some_stack, error_variable );
+	int_check_errors( error_variable );
+	/*
 	if( error_variable != NULL && *error_variable != OK ) //макрос
 	{
 		return {};
 	}
+	*/
 
 	//free( error_variable );
 	return return_value;
@@ -95,10 +104,13 @@ static void stack_resize( Stack* some_stack, err_code* error_variable )
 		downsize_stack( some_stack, error_variable );
     }
 
+	void_check_errors( error_variable );
+/*
 	if( error_variable != NULL && *error_variable != OK )
 	{
 		return;
 	}
+*/
     ///stack_size
 }
 
@@ -151,10 +163,13 @@ void StackCtor( Stack* some_stack, err_code* error_variable )
 	some_stack->data = ( int* )calloc( some_stack->max_capacity, sizeof( int ) ); //я не знаю, почему, но все ошибки valgrind исчезли после +1
 	if( some_stack->data == NULL )
 	{
+		error_output( error_variable, CALLOC_ERROR );
+		/*
 		if( error_variable != NULL )
 		{
 			*error_variable = CALLOC_ERROR;
 		}
+		*/
 		return;
 	}
 
@@ -183,10 +198,13 @@ void StackDtor( Stack* some_stack, err_code* error_variable )
 
 	if( some_stack->data == NULL )
 	{
+		error_output( error_variable, INVALID_DATA_PTR );
+		/*
 		if( error_variable != NULL )
 		{
 			*error_variable = INVALID_DATA_PTR;
 		}
+		*/
 		return;
 	}
 	free( some_stack->data );
@@ -216,10 +234,13 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 	}
 	else
 	{
+		error_output( error_variable, REALLOCATION_ERROR );
+		/*
 		if( error_variable != NULL )
 		{
 			*error_variable = REALLOCATION_ERROR;
 		}
+		*/
 		return;
 	}
 	//some_stack->data = ( int* )realloc( some_stack->data, some_stack->max_capacity * some_stack->up_resize_coeff ); //! recalloc
@@ -241,10 +262,13 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 	}
 	else
 	{
+		error_output( error_variable, REALLOCATION_ERROR );
+		/*
 		if( error_variable != NULL )
 		{
 			*error_variable = REALLOCATION_ERROR;
 		}
+		*/
 		return;
 	}
 }

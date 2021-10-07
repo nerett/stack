@@ -8,6 +8,33 @@
 
 enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCATION_ERROR };
 
+#define error_output( error_variable, possible_error_type ) do { \
+    if( error_variable != NULL )                                 \
+	{                                                            \
+		*error_variable = possible_error_type;                   \
+	}                                                            \
+} while(0)
+
+ #define void_check_errors( error_variable ) do { \
+    if( error_variable != NULL )                                       \
+  	{                                                                  \
+  		if( *error_variable != OK )                                     \
+		{                                                              \
+			return;                                                    \
+		}                                                              \
+  	}                                                                  \
+} while(0)
+
+#define int_check_errors( error_variable ) do { \
+   if( error_variable != NULL )                                      \
+   {                                                                 \
+	   if( *error_variable != OK )                                    \
+	   {                                                             \
+		   return {};                                                \
+	   }                                                             \
+   }                                                                 \
+} while(0)
+
 const size_t START_CAPACITY = 1;
 const int INT_POISON = 0;
 
