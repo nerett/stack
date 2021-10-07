@@ -21,33 +21,33 @@ int main()
 	stack_push( &some_stack, 10 );
 //printf( "dataptr_in_main=%d\n", some_stack.data );
 //printf( "N_element=%d ", some_stack.N_element );
-	printf("pop=%d\n", stack_pop( &some_stack )); //10
+	printf("[10]pop=%d\n", stack_pop( &some_stack )); //10
 
 //stack_pop( &some_stack );
 //printf( "N_element=%d ", some_stack.N_element );
-	printf("pop=%d\n", stack_pop( &some_stack )); //9
+	printf("[9]pop=%d\n", stack_pop( &some_stack )); //9
 //printf( "N_element=%d ", some_stack.N_element );
-	printf("pop=%d\n", stack_pop( &some_stack )); //8
+	printf("[8]pop=%d\n", stack_pop( &some_stack )); //8
 //printf( "N_element=%d ", some_stack.N_element );
-	printf("pop=%d\n", stack_pop( &some_stack )); //7
+	printf("[7]pop=%d\n", stack_pop( &some_stack )); //7
 printf("max_capacity=%d\n", some_stack.max_capacity);
 //printf("--------------------\n" );
-	printf("pop=%d\n", stack_pop( &some_stack )); //6
+	printf("[6]pop=%d\n", stack_pop( &some_stack )); //6
 printf("max_capacity=%d\n", some_stack.max_capacity);
-	printf("pop=%d\n", stack_pop( &some_stack )); //5
+	printf("[5]pop=%d\n", stack_pop( &some_stack )); //5
 printf("max_capacity=%d\n", some_stack.max_capacity);
 //printf("!!!\n");
-	printf("pop=%d\n", stack_pop( &some_stack )); //4
+	printf("[4]pop=%d\n", stack_pop( &some_stack )); //4
 printf("max_capacity=%d\n", some_stack.max_capacity);
-	printf("pop=%d\n", stack_pop( &some_stack )); //3
+	printf("[3]pop=%d\n", stack_pop( &some_stack )); //3
 printf("max_capacity=%d\n", some_stack.max_capacity);
-	printf("pop=%d\n", stack_pop( &some_stack )); //2
+	printf("[2]pop=%d\n", stack_pop( &some_stack )); //2
 printf("max_capacity=%d\n", some_stack.max_capacity);
-	printf("pop=%d\n", stack_pop( &some_stack )); //1
+	printf("[1]pop=%d\n", stack_pop( &some_stack )); //1
 printf("max_capacity=%d\n", some_stack.max_capacity);
-	printf("pop=%d\n", stack_pop( &some_stack )); //////////////
+	printf("[NO]pop=%d\n", stack_pop( &some_stack )); //////////////
 printf("max_capacity=%d\n", some_stack.max_capacity);
-	printf("pop=%d\n", stack_pop( &some_stack )); ////////////
+	printf("[NO]pop=%d\n", stack_pop( &some_stack )); ////////////
 
 	StackDtor( &some_stack );
     return 0;

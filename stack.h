@@ -6,7 +6,7 @@
 #include <math.h>
 #include <assert.h>
 
-enum err_code { OK };
+enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCATION_ERROR };
 
 const size_t START_CAPACITY = 1;
 const int INT_POISON = 0;
