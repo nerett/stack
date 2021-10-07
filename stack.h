@@ -8,7 +8,7 @@
 
 enum err_code { OK };
 
-const size_t START_CAPACITY = 20;
+const size_t START_CAPACITY = 1;
 const int INT_POISON = 0;
 
 struct Stack //чтобы использовать стек надо после его создания вызвать конструктор; после вызова деструктора стек можно пересоздать и использовать заново;
