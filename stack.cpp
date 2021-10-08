@@ -6,14 +6,6 @@ void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variabl
 {
 	assert( some_stack );
 
-/*
-	if( error_variable == NULL ) //функция
-	{
-		//error_variable = ( err_code* )calloc( error_variable, 1, sizeof( err_code ) );
-	}
-*/
-//printf( "[FUNC_CALL]stack_push \n" );
-	//err_code error_variable = OK;
 
 	if( some_stack->is_initialized == false )
 	{
@@ -22,19 +14,11 @@ void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variabl
 
     stack_resize( some_stack, error_variable );
 	void_check_errors( error_variable );
-	/*
-	if( error_variable != NULL && *error_variable != OK ) //макрос
-	{
-		return;
-	}
-	*/
 
 	some_stack->N_element++;
 
 	//не знаю, нужна ли проверка N_element < max_capacity
 	some_stack->data[some_stack->N_element] = value;
-
-	//free( error_variable );
 }
 
 
@@ -44,8 +28,6 @@ stk_element_t stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO �
 	assert( some_stack );
 
 
-//printf( "[FUNC_CALL]stack_pop \n" );
-//printf("N_element=%d\n", some_stack->N_element );
 	if( !some_stack->is_initialized )
 	{
 		return {};
@@ -58,12 +40,6 @@ stk_element_t stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO �
 	if( some_stack->max_capacity < some_stack->N_element )
 	{
 		error_output( error_variable, NO_ELEMENTS_TO_POP );
-		/*
-		if( error_variable != NULL )
-		{
-			*error_variable = NO_ELEMENTS_TO_POP;
-		}
-		*/
 		return {};
 	}
 
@@ -73,14 +49,7 @@ stk_element_t stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO �
 
 	stack_resize( some_stack, error_variable );
 	int_check_errors( error_variable );
-	/*
-	if( error_variable != NULL && *error_variable != OK ) //макрос
-	{
-		return {};
-	}
-	*/
 
-	//free( error_variable );
 	return return_value;
 }
 
@@ -91,7 +60,6 @@ static void stack_resize( Stack* some_stack, err_code* error_variable )
 	assert( some_stack );
 
 
-//printf( "[FUNC_CALL]stack_resize \n" );
 	calc_upsize_coeff( some_stack );
 	calc_downsize_coeff( some_stack );
 
@@ -105,28 +73,13 @@ static void stack_resize( Stack* some_stack, err_code* error_variable )
     }
 
 	void_check_errors( error_variable );
-/*
-	if( error_variable != NULL && *error_variable != OK )
-	{
-		return;
-	}
-*/
-    ///stack_size
 }
 
-
-/*
-static void init_stack( Stack* some_stack, err_code* error_variable )
-{
-    some_stack->data = ( int* )calloc( START_NUMBER_OF_ELEMENTS, sizeof( int ) );
-}
-*/
 
 
 static void calc_upsize_coeff( Stack* some_stack )
 {
 	assert( some_stack );
-//printf( "[FUNC_CALL]calc_upsize_coeff \n" );
 	some_stack->up_resize_coeff = 2; //! HARDCODE
 }
 
@@ -135,7 +88,6 @@ static void calc_upsize_coeff( Stack* some_stack )
 static void calc_downsize_coeff( Stack* some_stack )
 {
 	assert( some_stack );
-//printf( "[FUNC_CALL]calc_downsize_coeff \n" );
 	some_stack->down_resize_coeff = 0.5; //! HARDCODE
 }
 
@@ -144,7 +96,6 @@ static void calc_downsize_coeff( Stack* some_stack )
 static double calc_smoothing_downsize_coeff( const Stack* some_stack )
 {
 	assert( some_stack );
-//printf( "[FUNC_CALL]calc_smoothing_downsize_coeff \n" );
 	return 0.2; //! HARDCODE
 }
 
@@ -153,7 +104,6 @@ static double calc_smoothing_downsize_coeff( const Stack* some_stack )
 void StackCtor( Stack* some_stack, err_code* error_variable )
 {
 	assert( some_stack );
-//printf( "[FUNC_CALL]StackCtor \n" );
 	if( some_stack->is_initialized )
 	{
 		return; //! переделать
@@ -164,12 +114,6 @@ void StackCtor( Stack* some_stack, err_code* error_variable )
 	if( some_stack->data == NULL )
 	{
 		error_output( error_variable, CALLOC_ERROR );
-		/*
-		if( error_variable != NULL )
-		{
-			*error_variable = CALLOC_ERROR;
-		}
-		*/
 		return;
 	}
 
@@ -179,7 +123,6 @@ void StackCtor( Stack* some_stack, err_code* error_variable )
     //double smoothing_downsize_coeff = 0
 
 	some_stack->is_initialized = true;
-
 }
 
 
@@ -189,7 +132,6 @@ void StackDtor( Stack* some_stack, err_code* error_variable )
 	assert( some_stack );
 
 
-//printf( "[FUNC_CALL]StackDtor \n" );
 	if( !some_stack->is_initialized )
 	{
 		return;
@@ -199,12 +141,6 @@ void StackDtor( Stack* some_stack, err_code* error_variable )
 	if( some_stack->data == NULL )
 	{
 		error_output( error_variable, INVALID_DATA_PTR );
-		/*
-		if( error_variable != NULL )
-		{
-			*error_variable = INVALID_DATA_PTR;
-		}
-		*/
 		return;
 	}
 	free( some_stack->data );
@@ -223,9 +159,7 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 	assert( some_stack );
 
 
-//printf( "[FUNC_CALL]upsize_stack \n" );
 	some_stack->max_capacity *= some_stack->up_resize_coeff;
-//printf("MAXCAPACITY=%d \n", some_stack->max_capacity );
 
 	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * some_stack->max_capacity ); //! recalloc
 	if( realloc_buffer != NULL ) //макрос или функция
@@ -235,16 +169,8 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 	else
 	{
 		error_output( error_variable, REALLOCATION_ERROR );
-		/*
-		if( error_variable != NULL )
-		{
-			*error_variable = REALLOCATION_ERROR;
-		}
-		*/
 		return;
 	}
-	//some_stack->data = ( int* )realloc( some_stack->data, some_stack->max_capacity * some_stack->up_resize_coeff ); //! recalloc
-
 }
 
 
@@ -252,9 +178,10 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 void downsize_stack( Stack* some_stack, err_code* error_variable )
 {
 	assert( some_stack );
-//printf( "[FUNC_CALL]downsize_stack\n" );
+
+
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
-//printf("downsize:max_capacity=%d\n", some_stack->max_capacity );
+
 	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * some_stack->max_capacity );
 	if( realloc_buffer != NULL )
 	{
@@ -263,12 +190,6 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 	else
 	{
 		error_output( error_variable, REALLOCATION_ERROR );
-		/*
-		if( error_variable != NULL )
-		{
-			*error_variable = REALLOCATION_ERROR;
-		}
-		*/
 		return;
 	}
 }
