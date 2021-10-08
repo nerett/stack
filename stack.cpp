@@ -2,7 +2,7 @@
 
 
 
-void stack_push( Stack* some_stack, int value, err_code* error_variable ) //есть какая-то ошибка памяти
+void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variable ) //есть какая-то ошибка памяти
 {
 	assert( some_stack );
 
@@ -39,7 +39,7 @@ void stack_push( Stack* some_stack, int value, err_code* error_variable ) //ес
 
 
 
-int stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO ошибка запроса нулевого элемента стека
+stk_element_t stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO ошибка запроса нулевого элемента стека
 {
 	assert( some_stack );
 
@@ -67,7 +67,7 @@ int stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO ошибк�
 		return {};
 	}
 
-	int return_value = some_stack->data[some_stack->N_element];
+	stk_element_t return_value = some_stack->data[some_stack->N_element];
 	some_stack->data[some_stack->N_element] = INT_POISON;
 	some_stack->N_element--;
 
@@ -160,7 +160,7 @@ void StackCtor( Stack* some_stack, err_code* error_variable )
 	}
 
 	some_stack->max_capacity = START_CAPACITY; // проверить после каллока
-	some_stack->data = ( int* )calloc( some_stack->max_capacity, sizeof( int ) ); //я не знаю, почему, но все ошибки valgrind исчезли после +1
+	some_stack->data = ( stk_element_t* )calloc( some_stack->max_capacity, sizeof( stk_element_t ) ); //я не знаю, почему, но все ошибки valgrind исчезли после +1
 	if( some_stack->data == NULL )
 	{
 		error_output( error_variable, CALLOC_ERROR );
@@ -173,9 +173,9 @@ void StackCtor( Stack* some_stack, err_code* error_variable )
 		return;
 	}
 
-    int N_element = -1;
-    double up_resize_coeff = 0;
-    double down_resize_coeff = 0;
+    some_stack->N_element = -1; //FIXED
+    some_stack->up_resize_coeff = 0;
+    some_stack->down_resize_coeff = 0;
     //double smoothing_downsize_coeff = 0
 
 	some_stack->is_initialized = true;
@@ -227,10 +227,10 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 	some_stack->max_capacity *= some_stack->up_resize_coeff;
 //printf("MAXCAPACITY=%d \n", some_stack->max_capacity );
 
-	void* realloc_buffer = ( int* )realloc( some_stack->data, sizeof( int ) * some_stack->max_capacity ); //! recalloc
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * some_stack->max_capacity ); //! recalloc
 	if( realloc_buffer != NULL ) //макрос или функция
 	{
-		some_stack->data = ( int* )realloc_buffer; //потом можно будет перенести на создание
+		some_stack->data = ( stk_element_t* )realloc_buffer; //потом можно будет перенести на создание
 	}
 	else
 	{
@@ -255,10 +255,10 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 //printf( "[FUNC_CALL]downsize_stack\n" );
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
 //printf("downsize:max_capacity=%d\n", some_stack->max_capacity );
-	void* realloc_buffer = ( int* )realloc( some_stack->data, sizeof( int ) * some_stack->max_capacity );
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * some_stack->max_capacity );
 	if( realloc_buffer != NULL )
 	{
-		some_stack->data = ( int* )realloc_buffer;
+		some_stack->data = ( stk_element_t* )realloc_buffer;
 	}
 	else
 	{
