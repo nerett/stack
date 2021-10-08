@@ -4,3 +4,4 @@ stack.cbp
 stack.layout
 /Debug
 compile_run.sh
+stack_log.html

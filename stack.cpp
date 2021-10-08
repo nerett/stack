@@ -272,3 +272,54 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 		return;
 	}
 }
+
+
+
+static bool validate_stack( Stack* some_stack, err_code* error_variable )
+{
+
+	return true;
+}
+
+
+
+void stack_dump( Stack* some_stack, err_code stack_error, err_code* error_variable )
+{
+	assert( some_stack );
+
+
+	FILE* logfile = fopen( "stack_log.html", "a" );
+	if( logfile == NULL )
+	{
+		error_output( error_variable, FOPEN_ERROR );
+		return;
+	}
+
+	fputs( "[STACK_DUMP] ", logfile );
+	if( stack_error == OK )
+	{
+		fputs( "<font color=\"green\">[OK]</font>  \n", logfile );
+	}
+	else
+	{
+		fputs( "<font color=\"red\">[ERROR]</font> stack_error_code = ", logfile );
+		//fputc( ( int )stack_error, logfile );
+		fputs( "\n", logfile );
+	}
+	fclose( logfile );
+}
+
+
+
+void remake_log( err_code* error_variable )
+{
+	FILE* logfile = fopen( "stack_log.html", "w" );
+	if( logfile == NULL )
+	{
+		error_output( error_variable, FOPEN_ERROR );
+		return;
+	}
+
+	fputs( "<pre>", logfile );
+	fclose( logfile );
+}

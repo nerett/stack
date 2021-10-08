@@ -6,7 +6,7 @@
 #include <math.h>
 #include <assert.h>
 
-enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCATION_ERROR };
+enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCATION_ERROR, FOPEN_ERROR };
 
 #define error_output( error_variable, possible_error_type ) do { \
     if( error_variable != NULL )                                 \
@@ -18,7 +18,7 @@ enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCA
  #define void_check_errors( error_variable ) do { \
     if( error_variable != NULL )                                       \
   	{                                                                  \
-  		if( *error_variable != OK )                                     \
+  		if( *error_variable != OK )                                    \
 		{                                                              \
 			return;                                                    \
 		}                                                              \
@@ -28,21 +28,22 @@ enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCA
 #define int_check_errors( error_variable ) do { \
    if( error_variable != NULL )                                      \
    {                                                                 \
-	   if( *error_variable != OK )                                    \
+	   if( *error_variable != OK )                                   \
 	   {                                                             \
 		   return {};                                                \
 	   }                                                             \
    }                                                                 \
 } while(0)
 
-const size_t START_CAPACITY = 1;
+const size_t START_CAPACITY = 8;
 const int INT_POISON = 0;
 
 struct Stack //чтобы использовать стек надо после его создания вызвать конструктор; после вызова деструктора стек можно пересоздать и использовать заново;
 {
-    int* data = NULL;
     int max_capacity = 0; //size_t
     int N_element = -1;
+
+	int* data = NULL;
 
     double up_resize_coeff = 0;
     double down_resize_coeff = 0;
@@ -66,6 +67,9 @@ static void downsize_stack( Stack* some_stack, err_code* error_variable = NULL )
 
 static double calc_smoothing_downsize_coeff( const Stack* some_stack );
 
+static bool validate_stack( Stack* some_stack, err_code* error_variable = NULL ); //< Returns true, if stack is OK
+void stack_dump( Stack* some_stack, err_code stack_error ,err_code* error_variable = NULL );
+void remake_log( err_code* error_variable = NULL );
 //static void upsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 //static void downsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 

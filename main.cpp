@@ -49,6 +49,13 @@ printf("max_capacity=%d\n", some_stack.max_capacity);
 printf("max_capacity=%d\n", some_stack.max_capacity);
 	printf("[NO]pop=%d\n", stack_pop( &some_stack )); ////////////
 
+	remake_log();
+	stack_dump( &some_stack, CALLOC_ERROR ); //DEBUG TEST
+	stack_dump( &some_stack, OK ); //DEBUG TEST
+	stack_dump( &some_stack, FOPEN_ERROR ); //DEBUG TEST
+	stack_dump( &some_stack, INVALID_DATA_PTR ); //DEBUG TEST
+	stack_dump( &some_stack, REALLOCATION_ERROR ); //DEBUG TEST
+
 	StackDtor( &some_stack );
     return 0;
 }
