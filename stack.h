@@ -8,7 +8,7 @@
 
 typedef int stk_element_t; //!!!
 
-enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCATION_ERROR, FOPEN_ERROR };
+enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCATION_ERROR, FOPEN_ERROR, N_ELEMENT_MORE_CAPACITY, INVALID_UP_RESIZE_COEFF, INVALID_DOWN_RESIZE_COEFF, STACK_IS_NOT_CONSTRUCTED };
 
 #define error_output( error_variable, possible_error_type ) do { \
     if( error_variable != NULL )                                 \
@@ -60,14 +60,15 @@ void StackDtor( Stack* some_stack, err_code* error_variable = NULL );
 void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variable = NULL );
 stk_element_t stack_pop( Stack* some_stack, err_code* error_variable = NULL );
 static void stack_resize( Stack* some_stack, err_code* error_variable = NULL );
-static void init_stack( Stack* some_stack, err_code* error_variable = NULL );
+
+//static void init_stack( Stack* some_stack, err_code* error_variable = NULL );
+
 static void calc_upsize_coeff( Stack* some_stack );
 static void calc_downsize_coeff( Stack* some_stack );
+static double calc_smoothing_downsize_coeff( const Stack* some_stack );
 
 static void upsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 static void downsize_stack( Stack* some_stack, err_code* error_variable = NULL );
-
-static double calc_smoothing_downsize_coeff( const Stack* some_stack );
 
 static bool validate_stack( Stack* some_stack, err_code* error_variable = NULL ); //< Returns true, if stack is OK
 void stack_dump( Stack* some_stack, err_code stack_error ,err_code* error_variable = NULL );

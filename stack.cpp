@@ -198,13 +198,38 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 
 static bool validate_stack( Stack* some_stack, err_code* error_variable )
 {
+	if( some_stack->is_initialized == false )
+	{
+		error_output( error_variable, STACK_IS_NOT_CONSTRUCTED );
+		return 0;
+	}
+	if( some_stack->N_element > some_stack->max_capacity )
+	{
+		error_output( error_variable, N_ELEMENT_MORE_CAPACITY );
+		return 0;
+	}
+	if( some_stack->data == NULL )
+	{
+		error_output( error_variable, INVALID_DATA_PTR );
+		return 0;
+	}
+	if( some_stack->up_resize_coeff <= 0 )
+	{
+		error_output( error_variable, INVALID_UP_RESIZE_COEFF );
+		return 0;
+	}
+	if( some_stack->down_resize_coeff <= 0 )
+	{
+		error_output( error_variable, INVALID_DOWN_RESIZE_COEFF );
+		return 0;
+	}
 
 	return true;
 }
 
 
 
-void stack_dump( Stack* some_stack, err_code stack_error, err_code* error_variable )
+void stack_dump( Stack* some_stack, err_code stack_error, err_code* error_variable ) //! TODO использование пользовательской функции распечатки типа
 {
 	assert( some_stack );
 
@@ -216,16 +241,23 @@ void stack_dump( Stack* some_stack, err_code stack_error, err_code* error_variab
 		return;
 	}
 
-	fputs( "[STACK_DUMP] ", logfile );
+	fprintf( logfile , "<font color=\"purple\">[STACK_DUMP]</font> " );
 	if( stack_error == OK )
 	{
-		fputs( "<font color=\"green\">[OK]</font>  \n", logfile );
+		fprintf( logfile , "<font color=\"green\">[OK]</font>  \n" );
 	}
 	else
 	{
-		fputs( "<font color=\"red\">[ERROR]</font> stack_error_code = ", logfile );
-		//fputc( ( int )stack_error, logfile );
-		fputs( "\n", logfile );
+		fprintf( logfile, "<font color=\"red  \">[ERROR] stack_error_code = %d</font>\n", stack_error );
+		fprintf( logfile, "    struct Stack\n" );
+		fprintf( logfile, "    {\n" );
+		fprintf( logfile, "        max_capacity = %d\n", some_stack->max_capacity );
+		fprintf( logfile, "        N_element = %d\n", some_stack->N_element );
+		fprintf( logfile, "        *data = 0x%p\n", some_stack->data );
+		fprintf( logfile, "        up_resize_coeff = %f\n", some_stack->up_resize_coeff );
+		fprintf( logfile, "        down_resize_coeff = %f\n", some_stack->down_resize_coeff );
+		fprintf( logfile, "        is_initialized = %d\n", some_stack->is_initialized );
+		fprintf( logfile, "    };\n" );
 	}
 	fclose( logfile );
 }
