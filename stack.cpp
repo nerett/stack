@@ -206,7 +206,7 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 
 	validate_dump( some_stack, error_variable );
 	void_check_errors( error_variable );
-	
+
 
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
 
@@ -257,7 +257,7 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable )
 
 
 
-void stack_dump( Stack* some_stack, err_code stack_error, err_code* error_variable ) //! TODO использование пользовательской функции распечатки типа
+void stack_dump( Stack* some_stack, err_code stack_error, const char* error_filename, const char* error_function, int error_line, err_code* error_variable ) //! TODO использование пользовательской функции распечатки типа
 {
 	assert( some_stack );
 
@@ -272,11 +272,11 @@ void stack_dump( Stack* some_stack, err_code stack_error, err_code* error_variab
 	fprintf( logfile , "<font color=\"purple\">[STACK_DUMP]</font> " );
 	if( stack_error == OK )
 	{
-		fprintf( logfile , "<font color=\"green\">[OK]</font>  \n" );
+		fprintf( logfile , "<font color=\"green\">[OK] at function %s at %s:%d</font>\n", error_function, error_filename, error_line );
 	}
 	else
 	{
-		fprintf( logfile, "<font color=\"red  \">[ERROR] stack_error_code = %d</font>\n", stack_error );
+		fprintf( logfile, "<font color=\"red  \">[ERROR] stack_error_code = %d at function %s at %s:%d</font>\n", stack_error, error_function, error_filename, error_line );
 		fprintf( logfile, "    struct Stack\n" );
 		fprintf( logfile, "    {\n" );
 		fprintf( logfile, "        max_capacity = %d\n", some_stack->max_capacity );

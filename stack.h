@@ -9,7 +9,18 @@
 
 typedef int stk_element_t; //!!!
 
-enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCATION_ERROR, FOPEN_ERROR, N_ELEMENT_MORE_CAPACITY, INVALID_UP_RESIZE_COEFF, INVALID_DOWN_RESIZE_COEFF, STACK_IS_NOT_CONSTRUCTED };
+enum err_code
+{
+	OK,
+	NO_ELEMENTS_TO_POP,
+	CALLOC_ERROR,
+	INVALID_DATA_PTR,
+	REALLOCATION_ERROR,
+	FOPEN_ERROR,
+	N_ELEMENT_MORE_CAPACITY,
+	INVALID_UP_RESIZE_COEFF,
+	INVALID_DOWN_RESIZE_COEFF,
+	STACK_IS_NOT_CONSTRUCTED };
 
 #define error_output( error_variable, possible_error_type ) do { \
     if( error_variable != NULL )                                 \
@@ -38,10 +49,10 @@ enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCA
    }                                                                 \
 } while(0)
 
-#define validate_dump( some_stack, error_variable ) do {         \
-		err_code stack_error = OK;                                   \
-		validate_stack( some_stack, &stack_error );                   \
-		stack_dump( some_stack, stack_error, error_variable );       \
+#define validate_dump( some_stack, error_variable ) do {                                                  \
+		err_code stack_error = OK;                                                                        \
+		validate_stack( some_stack, &stack_error );                                                       \
+		stack_dump( some_stack, stack_error, __FILE__, __PRETTY_FUNCTION__, __LINE__, error_variable );   \
 	} while(0)
 
 const size_t START_CAPACITY = 8;
@@ -78,7 +89,7 @@ static void upsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 static void downsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 
 static bool validate_stack( Stack* some_stack, err_code* error_variable = NULL ); //< Returns true, if stack is OK
-void stack_dump( Stack* some_stack, err_code stack_error ,err_code* error_variable = NULL );
+void stack_dump( Stack* some_stack, err_code stack_error, const char* error_filename, const char* error_function, int error_line, err_code* error_variable = NULL );
 void remake_log( err_code* error_variable = NULL );
 //static void upsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 //static void downsize_stack( Stack* some_stack, err_code* error_variable = NULL );
