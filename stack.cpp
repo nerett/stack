@@ -6,6 +6,8 @@ void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variabl
 {
 	assert( some_stack );
 
+	validate_dump( some_stack, error_variable );
+	void_check_errors( error_variable );
 
 	if( some_stack->is_initialized == false )
 	{
@@ -26,6 +28,9 @@ void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variabl
 stk_element_t stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO ошибка запроса нулевого элемента стека
 {
 	assert( some_stack );
+
+	validate_dump( some_stack, error_variable );
+	int_check_errors( error_variable );
 
 
 	if( !some_stack->is_initialized )
@@ -59,6 +64,9 @@ static void stack_resize( Stack* some_stack, err_code* error_variable )
 {
 	assert( some_stack );
 
+	validate_dump( some_stack, error_variable );
+	void_check_errors( error_variable );
+
 
 	calc_upsize_coeff( some_stack );
 	calc_downsize_coeff( some_stack );
@@ -80,6 +88,10 @@ static void stack_resize( Stack* some_stack, err_code* error_variable )
 static void calc_upsize_coeff( Stack* some_stack )
 {
 	assert( some_stack );
+
+	validate_dump( some_stack, NULL );
+
+
 	some_stack->up_resize_coeff = 2; //! HARDCODE
 }
 
@@ -88,6 +100,10 @@ static void calc_upsize_coeff( Stack* some_stack )
 static void calc_downsize_coeff( Stack* some_stack )
 {
 	assert( some_stack );
+
+	validate_dump( some_stack, NULL );
+
+
 	some_stack->down_resize_coeff = 0.5; //! HARDCODE
 }
 
@@ -96,6 +112,9 @@ static void calc_downsize_coeff( Stack* some_stack )
 static double calc_smoothing_downsize_coeff( const Stack* some_stack )
 {
 	assert( some_stack );
+
+	//validate_dump( some_stack, NULL ); //BUG
+
 	return 0.2; //! HARDCODE
 }
 
@@ -131,6 +150,9 @@ void StackDtor( Stack* some_stack, err_code* error_variable )
 {
 	assert( some_stack );
 
+	validate_dump( some_stack, error_variable );
+	void_check_errors( error_variable );
+
 
 	if( !some_stack->is_initialized )
 	{
@@ -158,6 +180,9 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 {
 	assert( some_stack );
 
+	validate_dump( some_stack, error_variable );
+	void_check_errors( error_variable );
+
 
 	some_stack->max_capacity *= some_stack->up_resize_coeff;
 
@@ -179,6 +204,9 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 {
 	assert( some_stack );
 
+	validate_dump( some_stack, error_variable );
+	void_check_errors( error_variable );
+	
 
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
 

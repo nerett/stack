@@ -38,6 +38,12 @@ enum err_code { OK, NO_ELEMENTS_TO_POP, CALLOC_ERROR, INVALID_DATA_PTR, REALLOCA
    }                                                                 \
 } while(0)
 
+#define validate_dump( some_stack, error_variable ) do {         \
+		err_code stack_error = OK;                                   \
+		validate_stack( some_stack, &stack_error );                   \
+		stack_dump( some_stack, stack_error, error_variable );       \
+	} while(0)
+
 const size_t START_CAPACITY = 8;
 const int INT_POISON = 0; //TODO поменять на нормальный яд (или заставить пользователя создать его)
 
