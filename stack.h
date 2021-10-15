@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
+#include <malloc.h>///
 
 typedef int stk_element_t; //!!!
 

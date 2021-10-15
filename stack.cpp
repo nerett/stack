@@ -110,7 +110,7 @@ void StackCtor( Stack* some_stack, err_code* error_variable )
 	}
 
 	some_stack->max_capacity = START_CAPACITY; // проверить после каллока
-	some_stack->data = ( stk_element_t* )calloc( some_stack->max_capacity, sizeof( stk_element_t ) ); //я не знаю, почему, но все ошибки valgrind исчезли после +1
+	some_stack->data = ( stk_element_t* )calloc( some_stack->max_capacity + 1, sizeof( stk_element_t ) ); //я не знаю, почему, но все ошибки valgrind исчезли после +1
 	if( some_stack->data == NULL )
 	{
 		error_output( error_variable, CALLOC_ERROR );
@@ -161,7 +161,7 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->up_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * some_stack->max_capacity ); //! recalloc
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 ) ); //! recalloc
 	if( realloc_buffer != NULL ) //макрос или функция
 	{
 		some_stack->data = ( stk_element_t* )realloc_buffer; //потом можно будет перенести на создание
@@ -182,7 +182,7 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * some_stack->max_capacity );
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 ) );
 	if( realloc_buffer != NULL )
 	{
 		some_stack->data = ( stk_element_t* )realloc_buffer;
