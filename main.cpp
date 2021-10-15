@@ -15,69 +15,6 @@ int main()
 	stack_push( &some_stack, stack_pop( &some_stack ) + stack_pop( &some_stack ) ); //add
 	stack_push( &some_stack, stack_pop( &some_stack ) + stack_pop( &some_stack ) ); //add
 
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-	stack_push( &some_stack, 81939131 );
-
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	stack_pop( &some_stack );
-	
-
 	printf("result=%d\n", stack_pop( &some_stack ) );
 
 /*
