@@ -307,6 +307,9 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable )
 
 void stack_dump( Stack* some_stack, err_code stack_error, const char* error_filename, const char* error_function, int error_line, err_code* error_variable )
 {
+	#ifndef NDEBUG
+
+
 	assert( some_stack );
 
 
@@ -352,12 +355,18 @@ void stack_dump( Stack* some_stack, err_code stack_error, const char* error_file
 		}
 	}
 	fclose( logfile );
+
+
+	#endif
 }
 
 
 
 void remake_log( err_code* error_variable )
 {
+	#ifndef NDEBUG
+
+
 	FILE* logfile = fopen( "stack_log.html", "w" );
 	if( logfile == NULL )
 	{
@@ -367,6 +376,9 @@ void remake_log( err_code* error_variable )
 
 	fputs( "<pre>", logfile );
 	fclose( logfile );
+
+
+	#endif
 }
 
 
