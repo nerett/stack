@@ -262,12 +262,12 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable )
 
 
 	#ifndef NDEBUG
-		if( some_stack->left_struct_canary != CANARY ^ ( unsigned long long )( &some_stack->left_struct_canary ) )
+		if( some_stack->left_struct_canary != ( CANARY ^ ( unsigned long long )( &some_stack->left_struct_canary ) ) )
 		{
 			error_output( error_variable, LEFT_STRUCT_CANARY_DIED );
 			return false;
 		}
-		if( some_stack->right_struct_canary != CANARY ^ ( unsigned long long )( &some_stack->right_struct_canary ) )
+		if( some_stack->right_struct_canary != ( CANARY ^ ( unsigned long long )( &some_stack->right_struct_canary ) ) )
 		{
 			error_output( error_variable, RIGHT_STRUCT_CANARY_DIED );
 			return false;
