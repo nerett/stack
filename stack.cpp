@@ -291,8 +291,6 @@ void stack_dump( Stack* some_stack, err_code stack_error, const char* error_file
 
 		if( ( some_stack->user_type_dump_function != NULL ) && some_stack->N_element > -1 )
 		{
-			//!TODO запись строки дампа и проверка её на валидность
-			//char* user_type_dump_string = ( char* )calloc(  );
 			char* user_type_dump_string = some_stack->user_type_dump_function( some_stack->data, some_stack->N_element );
 printf("USERSTRING = %s\n", user_type_dump_string );
 			if( user_type_dump_string == NULL )
