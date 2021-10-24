@@ -87,6 +87,16 @@ char err_code_interpretation[10] = {
 const size_t START_CAPACITY = 8;
 const int INT_POISON = 0; //TODO поменять на нормальный яд (или заставить пользователя создать его)
 const unsigned long long CANARY = 0xAB0BAB0BAB0BAB0B;
+#ifdef NDEBUG
+	const int N_CANARIES = 0;
+	const int DATA_PTR_OFFSET = 0;
+	const int N_ELEMENT_OFFSET = 0;
+#endif
+#ifndef NDEBUG
+	const int N_CANARIES = 2;
+	const int DATA_PTR_OFFSET = 1;
+	const int N_ELEMENT_OFFSET = 1;
+#endif
 
 
 struct Stack //чтобы использовать стек надо после его создания вызвать конструктор; после вызова деструктора стек можно пересоздать и использовать заново;

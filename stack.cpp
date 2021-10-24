@@ -129,7 +129,8 @@ void StackCtor( Stack* some_stack, user_dump* user_type_dump_function, err_code*
 	}
 
 	some_stack->max_capacity = START_CAPACITY; // проверить после каллока
-	some_stack->data = ( stk_element_t* )calloc( some_stack->max_capacity + 1, sizeof( stk_element_t ) ); //я не знаю, почему, но все ошибки valgrind исчезли после +1
+	some_stack->data = ( stk_element_t* )calloc( some_stack->max_capacity + 1 + N_CANARIES, sizeof( stk_element_t ) ); //я не знаю, почему, но все ошибки valgrind исчезли после +1
+	some_stack->data += DATA_PTR_OFFSET;
 	if( some_stack->data == NULL )
 	{
 		error_output( error_variable, CALLOC_ERROR );
@@ -137,8 +138,8 @@ void StackCtor( Stack* some_stack, user_dump* user_type_dump_function, err_code*
 	}
 
     some_stack->N_element = -1; //FIXED
-    some_stack->up_resize_coeff = 0;
-    some_stack->down_resize_coeff = 0;
+    some_stack->up_resize_coeff = 1;
+    some_stack->down_resize_coeff = 1;
     //double smoothing_downsize_coeff = 0
 
 	some_stack->user_type_dump_function = user_type_dump_function;
@@ -173,7 +174,7 @@ void StackDtor( Stack* some_stack, err_code* error_variable )
 		error_output( error_variable, INVALID_DATA_PTR );
 		return;
 	}
-	free( some_stack->data );
+	free( some_stack->data - DATA_PTR_OFFSET );
 
 	some_stack->is_initialized = false;
 	some_stack->N_element = 0;
@@ -194,7 +195,7 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->up_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 ) ); //! recalloc
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) ); //! recalloc
 	if( realloc_buffer != NULL ) //макрос или функция
 	{
 		some_stack->data = ( stk_element_t* )realloc_buffer; //потом можно будет перенести на создание
@@ -218,7 +219,7 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 ) );
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) );
 	if( realloc_buffer != NULL )
 	{
 		some_stack->data = ( stk_element_t* )realloc_buffer;

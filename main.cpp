@@ -6,7 +6,6 @@ int main()
 	remake_log();
 	Stack some_stack;
 	StackCtor( &some_stack, int_array_dump ); //!TODO запоминание строки первого создания стека
-//printf( "dataptr_in_main=%d\n", some_stack.data );
 
 	stack_push( &some_stack, 125 );
 
