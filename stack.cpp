@@ -150,6 +150,8 @@ void StackCtor( Stack* some_stack, user_dump* user_type_dump_function, err_code*
 	#ifndef NDEBUG
 		some_stack->left_struct_canary = CANARY ^ ( unsigned long long )( &some_stack->left_struct_canary );
 		some_stack->right_struct_canary = CANARY ^ ( unsigned long long )( &some_stack->right_struct_canary );
+
+		set_data_canaries( some_stack );
 	#endif
 }
 
@@ -205,6 +207,10 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 		error_output( error_variable, REALLOCATION_ERROR );
 		return;
 	}
+
+	#ifndef NDEBUG
+		set_data_canaries( some_stack );
+	#endif
 }
 
 
@@ -229,6 +235,10 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 		error_output( error_variable, REALLOCATION_ERROR );
 		return;
 	}
+
+	#ifndef NDEBUG
+		set_data_canaries( some_stack );
+	#endif
 }
 
 
@@ -263,14 +273,24 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable )
 
 
 	#ifndef NDEBUG
-		if( some_stack->left_struct_canary != ( CANARY ^ ( unsigned long long )( &some_stack->left_struct_canary ) ) )
+		if( !check_struct_canary( &some_stack->left_struct_canary ) )
 		{
 			error_output( error_variable, LEFT_STRUCT_CANARY_DIED );
 			return false;
 		}
-		if( some_stack->right_struct_canary != ( CANARY ^ ( unsigned long long )( &some_stack->right_struct_canary ) ) )
+		if( !check_struct_canary( &some_stack->right_struct_canary ) )
 		{
 			error_output( error_variable, RIGHT_STRUCT_CANARY_DIED );
+			return false;
+		}
+		if( !check_data_canary( some_stack->data, - DATA_PTR_OFFSET ) )
+		{
+			error_output( error_variable, LEFT_DATA_CANARY_DIED );
+			return false;
+		}
+		if( !check_data_canary( some_stack->data, some_stack->max_capacity + DATA_PTR_OFFSET ) )
+		{
+			error_output( error_variable, RIGHT_DATA_CANARY_DIED );
 			return false;
 		}
 	#endif
@@ -314,7 +334,6 @@ void stack_dump( Stack* some_stack, err_code stack_error, const char* error_file
 		if( ( some_stack->user_type_dump_function != NULL ) && some_stack->N_element > -1 )
 		{
 			char* user_type_dump_string = some_stack->user_type_dump_function( some_stack->data, some_stack->N_element );
-printf("USERSTRING = %s\n", user_type_dump_string );
 			if( user_type_dump_string == NULL )
 			{
 				error_output( error_variable, INVALID__USER_TYPE_DUMP_STRING_PTR );
@@ -344,4 +363,43 @@ void remake_log( err_code* error_variable )
 
 	fputs( "<pre>", logfile );
 	fclose( logfile );
+}
+
+
+
+static void set_data_canaries( Stack* some_stack )
+{
+	*( some_stack->data - DATA_PTR_OFFSET ) =
+	data_canary_x_ptr( some_stack->data, - DATA_PTR_OFFSET );
+
+	*( some_stack->data + some_stack->max_capacity + DATA_PTR_OFFSET ) =
+	data_canary_x_ptr( some_stack->data, some_stack->max_capacity + DATA_PTR_OFFSET );
+}
+
+
+
+static unsigned long long struct_canary_x_ptr( unsigned long long* canary_ptr )
+{
+	return CANARY ^ ( unsigned long long )( canary_ptr );
+}
+
+
+
+static stk_element_t data_canary_x_ptr( stk_element_t* stack_data, int offset )
+{
+	return ( stk_element_t )( CANARY ^ ( unsigned long long )( stack_data + offset ) );
+}
+
+
+
+static bool check_struct_canary( unsigned long long* canary_ptr )
+{
+	return *canary_ptr = struct_canary_x_ptr( canary_ptr );
+}
+
+
+
+static bool check_data_canary( stk_element_t* stack_data, int offset )
+{
+	return *( stack_data + offset ) = data_canary_x_ptr( stack_data, offset );
 }

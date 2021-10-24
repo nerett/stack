@@ -146,6 +146,12 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable = NULL )
 void stack_dump( Stack* some_stack, err_code stack_error, const char* error_filename, const char* error_function, int error_line, err_code* error_variable = NULL );
 void remake_log( err_code* error_variable = NULL );
 
+static void set_data_canaries( Stack* some_stack );
+static unsigned long long struct_canary_x_ptr( unsigned long long* canary_ptr );
+static stk_element_t data_canary_x_ptr( stk_element_t* stack_data, int offset );
+static bool check_struct_canary( unsigned long long* canary_ptr );
+static bool check_data_canary( stk_element_t* stack_data, int offset );
+
 //void set_canary(  );
 //static void upsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 //static void downsize_stack( Stack* some_stack, err_code* error_variable = NULL );
