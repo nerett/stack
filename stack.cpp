@@ -120,7 +120,7 @@ static double calc_smoothing_downsize_coeff( const Stack* some_stack )
 
 
 
-void StackCtor( Stack* some_stack, err_code* error_variable )
+void StackCtor( Stack* some_stack, user_dump* user_type_dump_function, err_code* error_variable )
 {
 	assert( some_stack );
 	if( some_stack->is_initialized )
@@ -140,6 +140,8 @@ void StackCtor( Stack* some_stack, err_code* error_variable )
     some_stack->up_resize_coeff = 0;
     some_stack->down_resize_coeff = 0;
     //double smoothing_downsize_coeff = 0
+
+	some_stack->user_type_dump_function = user_type_dump_function;
 
 	some_stack->is_initialized = true;
 }
@@ -286,6 +288,25 @@ void stack_dump( Stack* some_stack, err_code stack_error, const char* error_file
 		fprintf( logfile, "        down_resize_coeff = %f\n", some_stack->down_resize_coeff );
 		fprintf( logfile, "        is_initialized = %d\n", some_stack->is_initialized );
 		fprintf( logfile, "    };\n" );
+
+		if( ( some_stack->user_type_dump_function != NULL ) && some_stack->N_element > -1 )
+		{
+			//!TODO запись строки дампа и проверка её на валидность
+			//char* user_type_dump_string = ( char* )calloc(  );
+			char* user_type_dump_string = some_stack->user_type_dump_function( some_stack->data, some_stack->N_element );
+printf("USERSTRING = %s\n", user_type_dump_string );
+			if( user_type_dump_string == NULL )
+			{
+				error_output( error_variable, INVALID__USER_TYPE_DUMP_STRING_PTR );
+				return;
+			}
+
+			fprintf( logfile, "    data = { " );
+			fprintf( logfile, "%s", user_type_dump_string );
+			fprintf( logfile, "};\n" );
+
+			free( user_type_dump_string );
+		}
 	}
 	fclose( logfile );
 }

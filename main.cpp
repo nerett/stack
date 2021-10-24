@@ -5,12 +5,17 @@ int main()
 {
 	remake_log();
 	Stack some_stack;
-	StackCtor( &some_stack );
+	StackCtor( &some_stack, int_array_dump );
 //printf( "dataptr_in_main=%d\n", some_stack.data );
 
 	stack_push( &some_stack, 125 );
-	stack_push( &some_stack, 3 );
-	stack_push( &some_stack, 533 );
+
+	//stack_dump( &some_stack, CALLOC_ERROR, __FILE__, __PRETTY_FUNCTION__, __LINE__ );
+
+	stack_push( &some_stack, 4 );
+	stack_push( &some_stack, 571 );
+
+	//stack_dump( &some_stack, CALLOC_ERROR, __FILE__, __PRETTY_FUNCTION__, __LINE__ );
 
 	stack_push( &some_stack, stack_pop( &some_stack ) + stack_pop( &some_stack ) ); //add
 	stack_push( &some_stack, stack_pop( &some_stack ) + stack_pop( &some_stack ) ); //add

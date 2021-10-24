@@ -1,26 +1,47 @@
 #ifndef STACK_H_INCLUDED
 #define STACK_H_INCLUDED
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
 #include <malloc.h>///
+#include "config.h"
 
-typedef int stk_element_t; //!!!
+//typedef int stk_element_t; //!!!
+typedef char* ( user_dump )( stk_element_t* data, int N_elements );
 
 enum err_code
 {
-	OK,
-	NO_ELEMENTS_TO_POP,
-	CALLOC_ERROR,
-	INVALID_DATA_PTR,
-	REALLOCATION_ERROR,
-	FOPEN_ERROR,
-	N_ELEMENT_MORE_CAPACITY,
-	INVALID_UP_RESIZE_COEFF,
-	INVALID_DOWN_RESIZE_COEFF,
-	STACK_IS_NOT_CONSTRUCTED };
+	OK = 0,
+	NO_ELEMENTS_TO_POP = 1,
+	CALLOC_ERROR = 2,
+	INVALID_DATA_PTR = 3,
+	REALLOCATION_ERROR = 4,
+	FOPEN_ERROR = 5,
+	N_ELEMENT_MORE_CAPACITY = 6,
+	INVALID_UP_RESIZE_COEFF = 7,
+	INVALID_DOWN_RESIZE_COEFF = 8,
+	STACK_IS_NOT_CONSTRUCTED = 9,
+	INVALID__USER_TYPE_DUMP_STRING_PTR = 10
+};
+
+/*
+char err_code_interpretation[10] = {
+	"OK",
+	"NO_ELEMENTS_TO_POP",
+	"CALLOC_ERROR",
+	"INVALID_DATA_PTR",
+	"REALLOCATION_ERROR",
+	"FOPEN_ERROR",
+	"N_ELEMENT_MORE_CAPACITY",
+	"INVALID_UP_RESIZE_COEFF",
+	"INVALID_DOWN_RESIZE_COEFF",
+	"STACK_IS_NOT_CONSTRUCTED",
+	"INVALID__USER_TYPE_DUMP_STRING_PTR"
+};
+*/
 
 #define error_output( error_variable, possible_error_type ) do { \
     if( error_variable != NULL )                                 \
@@ -49,9 +70,9 @@ enum err_code
    }                                                                 \
 } while(0)
 
-#define validate_dump( some_stack, error_variable ) do {                                                  \
-		err_code stack_error = OK;                                                                        \
-		validate_stack( some_stack, &stack_error );                                                       \
+#define validate_dump( some_stack, error_variable ) do {                                                                           \
+		err_code stack_error = OK;                                                                                                 \
+		validate_stack( some_stack, &stack_error );                                                                                \
 		stack_dump( some_stack, stack_error, __FILE__, __PRETTY_FUNCTION__, __LINE__, error_variable );   \
 	} while(0)
 
@@ -69,10 +90,13 @@ struct Stack //чтобы использовать стек надо после 
     double down_resize_coeff = 0;
     //double smoothing_downsize_coeff = 0;
 
+	//!TODO указатель на функцию дампа данных
+	user_dump* user_type_dump_function = NULL;
+
 	bool is_initialized = false; //! static
 };
 
-void StackCtor( Stack* some_stack, err_code* error_variable = NULL );
+void StackCtor( Stack* some_stack, user_dump* user_type_dump_function = NULL, err_code* error_variable = NULL );
 void StackDtor( Stack* some_stack, err_code* error_variable = NULL );
 
 void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variable = NULL );
