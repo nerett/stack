@@ -1,6 +1,7 @@
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
 
+//#define NDEBUG
 
 #include <assert.h>
 #include <stdlib.h>

@@ -144,6 +144,12 @@ void StackCtor( Stack* some_stack, user_dump* user_type_dump_function, err_code*
 	some_stack->user_type_dump_function = user_type_dump_function;
 
 	some_stack->is_initialized = true;
+
+
+	#ifndef NDEBUG
+		some_stack->left_struct_canary = CANARY ^ ( unsigned long long )( &some_stack->left_struct_canary );
+		some_stack->right_struct_canary = CANARY ^ ( unsigned long long )( &some_stack->right_struct_canary );
+	#endif
 }
 
 
@@ -231,28 +237,43 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable )
 	if( some_stack->is_initialized == false )
 	{
 		error_output( error_variable, STACK_IS_NOT_CONSTRUCTED );
-		return 0;
+		return false;
 	}
 	if( some_stack->N_element > some_stack->max_capacity )
 	{
 		error_output( error_variable, N_ELEMENT_MORE_CAPACITY );
-		return 0;
+		return false;
 	}
 	if( some_stack->data == NULL )
 	{
 		error_output( error_variable, INVALID_DATA_PTR );
-		return 0;
+		return false;
 	}
 	if( some_stack->up_resize_coeff <= 0 )
 	{
 		error_output( error_variable, INVALID_UP_RESIZE_COEFF );
-		return 0;
+		return false;
 	}
 	if( some_stack->down_resize_coeff <= 0 )
 	{
 		error_output( error_variable, INVALID_DOWN_RESIZE_COEFF );
-		return 0;
+		return false;
 	}
+
+
+	#ifndef NDEBUG
+		if( some_stack->left_struct_canary != CANARY ^ ( unsigned long long )( &some_stack->left_struct_canary ) )
+		{
+			error_output( error_variable, LEFT_STRUCT_CANARY_DIED );
+			return false;
+		}
+		if( some_stack->right_struct_canary != CANARY ^ ( unsigned long long )( &some_stack->right_struct_canary ) )
+		{
+			error_output( error_variable, RIGHT_STRUCT_CANARY_DIED );
+			return false;
+		}
+	#endif
+
 
 	return true;
 }
