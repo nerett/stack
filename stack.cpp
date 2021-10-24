@@ -148,8 +148,8 @@ void StackCtor( Stack* some_stack, user_dump* user_type_dump_function, err_code*
 
 
 	#ifndef NDEBUG
-		some_stack->left_struct_canary = CANARY ^ ( unsigned long long )( &some_stack->left_struct_canary );
-		some_stack->right_struct_canary = CANARY ^ ( unsigned long long )( &some_stack->right_struct_canary );
+		some_stack->left_struct_canary = struct_canary_x_ptr( &some_stack->left_struct_canary );
+		some_stack->right_struct_canary = struct_canary_x_ptr( &some_stack->right_struct_canary );
 
 		set_data_canaries( some_stack );
 	#endif
