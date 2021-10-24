@@ -197,7 +197,9 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->up_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) ); //! recalloc
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET,
+		sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) ); //! recalloc
+
 	if( realloc_buffer != NULL ) //макрос или функция
 	{
 		some_stack->data = ( stk_element_t* )realloc_buffer; //потом можно будет перенести на создание
@@ -225,7 +227,9 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET, sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) );
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET,
+		sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) );
+
 	if( realloc_buffer != NULL )
 	{
 		some_stack->data = ( stk_element_t* )realloc_buffer;
@@ -301,7 +305,7 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable )
 
 
 
-void stack_dump( Stack* some_stack, err_code stack_error, const char* error_filename, const char* error_function, int error_line, err_code* error_variable ) //! TODO использование пользовательской функции распечатки типа
+void stack_dump( Stack* some_stack, err_code stack_error, const char* error_filename, const char* error_function, int error_line, err_code* error_variable )
 {
 	assert( some_stack );
 
@@ -370,10 +374,10 @@ void remake_log( err_code* error_variable )
 static void set_data_canaries( Stack* some_stack )
 {
 	*( some_stack->data - DATA_PTR_OFFSET ) =
-	data_canary_x_ptr( some_stack->data, - DATA_PTR_OFFSET );
+		data_canary_x_ptr( some_stack->data, - DATA_PTR_OFFSET );
 
 	*( some_stack->data + some_stack->max_capacity + DATA_PTR_OFFSET ) =
-	data_canary_x_ptr( some_stack->data, some_stack->max_capacity + DATA_PTR_OFFSET );
+		data_canary_x_ptr( some_stack->data, some_stack->max_capacity + DATA_PTR_OFFSET );
 }
 
 
