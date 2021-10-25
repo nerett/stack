@@ -410,12 +410,12 @@ static stk_element_t data_canary_x_ptr( stk_element_t* stack_data, int offset )
 
 static bool check_struct_canary( unsigned long long* canary_ptr )
 {
-	return *canary_ptr = struct_canary_x_ptr( canary_ptr );
+	return *canary_ptr == struct_canary_x_ptr( canary_ptr );
 }
 
 
 
 static bool check_data_canary( stk_element_t* stack_data, int offset )
 {
-	return *( stack_data + offset ) = data_canary_x_ptr( stack_data, offset );
+	return *( stack_data + offset ) == data_canary_x_ptr( stack_data, offset );
 }

@@ -48,7 +48,7 @@ char err_code_interpretation[10] = {
 	"STACK_IS_NOT_CONSTRUCTED",
 	"INVALID__USER_TYPE_DUMP_STRING_PTR"
 };
-*/                                                             \
+*/    // not working:(                                                        \
 
 #define error_output( error_variable, possible_error_type ) do { \
     if( error_variable != NULL )                                 \
@@ -85,8 +85,8 @@ char err_code_interpretation[10] = {
 
 
 const size_t START_CAPACITY = 8;
-const int INT_POISON = 0; //TODO поменять на нормальный яд (или заставить пользователя создать его)
 const unsigned long long CANARY = 0xAB0BAB0BAB0BAB0B;
+const int INT_POISON = 0; //TODO поменять на нормальный яд (или заставить пользователя создать его)
 #ifdef NDEBUG
 	const int N_CANARIES = 0;
 	const int DATA_PTR_OFFSET = 0;
