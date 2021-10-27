@@ -141,6 +141,7 @@ static double calc_smoothing_downsize_coeff( const Stack* some_stack );
 
 static void upsize_stack( Stack* some_stack, err_code* error_variable = NULL );
 static void downsize_stack( Stack* some_stack, err_code* error_variable = NULL );
+static void reallocate_stack( Stack* some_stack, err_code* error_variable );
 
 static bool validate_stack( Stack* some_stack, err_code* error_variable = NULL ); //< Returns true, if stack is OK
 void stack_dump( Stack* some_stack, err_code stack_error, const char* error_filename, const char* error_function, int error_line, err_code* error_variable = NULL );

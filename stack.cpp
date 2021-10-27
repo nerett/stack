@@ -197,18 +197,8 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->up_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET,
-		sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) ); //! recalloc
-
-	if( realloc_buffer != NULL ) //макрос или функция
-	{
-		some_stack->data = ( stk_element_t* )realloc_buffer + DATA_PTR_OFFSET; //потом можно будет перенести на создание
-	}
-	else
-	{
-		error_output( error_variable, REALLOCATION_ERROR );
-		return;
-	}
+	reallocate_stack( some_stack, error_variable );
+	void_check_errors( error_variable );
 
 	#ifndef NDEBUG
 		set_data_canaries( some_stack );
@@ -227,18 +217,8 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 
 	some_stack->max_capacity *= some_stack->down_resize_coeff;
 
-	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET,
-		sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) );
-
-	if( realloc_buffer != NULL )
-	{
-		some_stack->data = ( stk_element_t* )realloc_buffer + DATA_PTR_OFFSET;
-	}
-	else
-	{
-		error_output( error_variable, REALLOCATION_ERROR );
-		return;
-	}
+	reallocate_stack( some_stack, error_variable );
+	void_check_errors( error_variable );
 
 	#ifndef NDEBUG
 		set_data_canaries( some_stack );
@@ -418,4 +398,22 @@ static bool check_struct_canary( unsigned long long* canary_ptr )
 static bool check_data_canary( stk_element_t* stack_data, int offset )
 {
 	return *( stack_data + offset ) == data_canary_x_ptr( stack_data, offset );
+}
+
+
+
+static void reallocate_stack( Stack* some_stack, err_code* error_variable )
+{
+	void* realloc_buffer = ( stk_element_t* )realloc( some_stack->data - DATA_PTR_OFFSET,
+		sizeof( stk_element_t ) * ( some_stack->max_capacity + 1 + N_CANARIES ) );
+
+	if( realloc_buffer != NULL )
+	{
+		some_stack->data = ( stk_element_t* )realloc_buffer + DATA_PTR_OFFSET;
+	}
+	else
+	{
+		error_output( error_variable, REALLOCATION_ERROR );
+		return;
+	}
 }
