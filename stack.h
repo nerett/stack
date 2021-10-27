@@ -84,7 +84,7 @@ char err_code_interpretation[10] = {
 	} while(0)
 
 
-const size_t START_CAPACITY = 8;
+const size_t START_CAPACITY = 8; //8
 const unsigned long long CANARY = 0xAB0BAB0BAB0BAB0B;
 const int INT_POISON = 0; //TODO поменять на нормальный яд (или заставить пользователя создать его)
 #ifdef NDEBUG

@@ -202,7 +202,7 @@ void upsize_stack( Stack* some_stack, err_code* error_variable )
 
 	if( realloc_buffer != NULL ) //макрос или функция
 	{
-		some_stack->data = ( stk_element_t* )realloc_buffer; //потом можно будет перенести на создание
+		some_stack->data = ( stk_element_t* )realloc_buffer + DATA_PTR_OFFSET; //потом можно будет перенести на создание
 	}
 	else
 	{
