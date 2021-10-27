@@ -232,7 +232,7 @@ void downsize_stack( Stack* some_stack, err_code* error_variable )
 
 	if( realloc_buffer != NULL )
 	{
-		some_stack->data = ( stk_element_t* )realloc_buffer;
+		some_stack->data = ( stk_element_t* )realloc_buffer + DATA_PTR_OFFSET;
 	}
 	else
 	{

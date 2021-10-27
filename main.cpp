@@ -14,7 +14,13 @@ int main()
 	for( int test = 0; test < 80; test++ )
 	{
 		stack_push( &some_stack, 571 );
-		stack_dump( &some_stack, CALLOC_ERROR, __PRETTY_FUNCTION__, __FILE__, __LINE__ );
+		//stack_dump( &some_stack, CALLOC_ERROR, __PRETTY_FUNCTION__, __FILE__, __LINE__ );
+	}
+
+	for( int test = 0; test < 80; test++ )
+	{
+		stack_pop( &some_stack );
+		//stack_dump( &some_stack, CALLOC_ERROR, __PRETTY_FUNCTION__, __FILE__, __LINE__ );
 	}
 
 
