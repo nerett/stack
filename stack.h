@@ -32,7 +32,7 @@ enum err_code
 		LEFT_DATA_CANARY_DIED = 13,
 		RIGHT_DATA_CANARY_DIED = 14,
 		DATA_HASH_SETTING_ERROR = 15,
-		INVALID_DATA_HASH
+		INVALID_DATA_HASH = 16
 	#endif
 };
 
@@ -123,7 +123,6 @@ struct Stack //чтобы использовать стек надо после 
 	user_dump* user_type_dump_function = NULL;
 
 	bool is_initialized = false; //! static
-
 
 	#ifndef NDEBUG
 		int data_hash = 0;

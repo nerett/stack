@@ -450,8 +450,10 @@ int xor_hash( stk_element_t* data, int N_elements )
 
 
 
-static void set_stack_data_hash( Stack* some_stack, err_code* error_variable ) //не проверяет валидность стека в силу логики использования
+void set_stack_data_hash( Stack* some_stack, err_code* error_variable ) //не проверяет валидность стека в силу логики использования
 {
+	#ifndef NDEBUG
+
 	assert( some_stack );
 
 
@@ -463,4 +465,6 @@ static void set_stack_data_hash( Stack* some_stack, err_code* error_variable ) /
 		error_output( error_variable, DATA_HASH_SETTING_ERROR );
 		return;
 	}
+
+	#endif
 }
