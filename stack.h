@@ -30,7 +30,9 @@ enum err_code
 		LEFT_STRUCT_CANARY_DIED = 11,
 		RIGHT_STRUCT_CANARY_DIED = 12,
 		LEFT_DATA_CANARY_DIED = 13,
-		RIGHT_DATA_CANARY_DIED = 14
+		RIGHT_DATA_CANARY_DIED = 14,
+		DATA_HASH_SETTING_ERROR = 15,
+		INVALID_DATA_HASH
 	#endif
 };
 
@@ -87,6 +89,8 @@ char err_code_interpretation[10] = {
 const size_t START_CAPACITY = 8; //8
 const unsigned long long CANARY = 0xAB0BAB0BAB0BAB0B;
 const int INT_POISON = 0; //TODO поменять на нормальный яд (или заставить пользователя создать его)
+
+const int START_HASH_KEY = 0;
 #ifdef NDEBUG
 	const int N_CANARIES = 0;
 	const int DATA_PTR_OFFSET = 0;
@@ -122,6 +126,8 @@ struct Stack //чтобы использовать стек надо после 
 
 
 	#ifndef NDEBUG
+		int data_hash = 0;
+
 		unsigned long long right_struct_canary = CANARY;
 	#endif
 };
@@ -152,6 +158,8 @@ static unsigned long long struct_canary_x_ptr( unsigned long long* canary_ptr );
 static stk_element_t data_canary_x_ptr( stk_element_t* stack_data, int offset );
 static bool check_struct_canary( unsigned long long* canary_ptr );
 static bool check_data_canary( stk_element_t* stack_data, int offset );
+static void set_stack_data_hash( Stack* some_stack, err_code* error_variable = NULL );
+int xor_hash( stk_element_t* data, int N_elements );
 
 //void set_canary(  );
 //static void upsize_stack( Stack* some_stack, err_code* error_variable = NULL );

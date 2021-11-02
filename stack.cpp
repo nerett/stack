@@ -21,6 +21,10 @@ void stack_push( Stack* some_stack, stk_element_t value, err_code* error_variabl
 
 	//не знаю, нужна ли проверка N_element < max_capacity
 	some_stack->data[some_stack->N_element] = value;
+
+	#ifndef NDEBUG
+		set_stack_data_hash( some_stack, error_variable );
+	#endif
 }
 
 
@@ -51,6 +55,10 @@ stk_element_t stack_pop( Stack* some_stack, err_code* error_variable ) //!TODO �
 	stk_element_t return_value = some_stack->data[some_stack->N_element];
 	some_stack->data[some_stack->N_element] = INT_POISON;
 	some_stack->N_element--;
+
+	#ifndef NDEBUG
+		set_stack_data_hash( some_stack, error_variable );
+	#endif
 
 	stack_resize( some_stack, error_variable );
 	int_check_errors( error_variable );
@@ -277,6 +285,11 @@ static bool validate_stack( Stack* some_stack, err_code* error_variable )
 			error_output( error_variable, RIGHT_DATA_CANARY_DIED );
 			return false;
 		}
+		if( xor_hash( some_stack->data, some_stack->N_element ) != some_stack->data_hash )
+		{
+			error_output( error_variable, INVALID_DATA_HASH );
+			return false;
+		}
 	#endif
 
 
@@ -414,6 +427,40 @@ static void reallocate_stack( Stack* some_stack, err_code* error_variable )
 	else
 	{
 		error_output( error_variable, REALLOCATION_ERROR );
+		return;
+	}
+}
+
+
+
+int xor_hash( stk_element_t* data, int N_elements )
+{
+	assert( data );
+
+
+	int hash_key = START_HASH_KEY;
+
+	for( int i = 0; i < N_elements; i++ )
+	{
+    	hash_key = hash_key ^ ( int )data[i];
+	}
+
+	return hash_key;
+}
+
+
+
+static void set_stack_data_hash( Stack* some_stack, err_code* error_variable ) //не проверяет валидность стека в силу логики использования
+{
+	assert( some_stack );
+
+
+	int hash_key_buffer = xor_hash( some_stack->data, some_stack->N_element );
+	some_stack->data_hash = hash_key_buffer;
+
+	if( some_stack->data_hash != hash_key_buffer )
+	{
+		error_output( error_variable, DATA_HASH_SETTING_ERROR );
 		return;
 	}
 }
