@@ -306,7 +306,7 @@ void stack_dump( Stack* some_stack, err_code stack_error, const char* error_file
 	assert( some_stack );
 
 
-	FILE* logfile = fopen( "stack_log.html", "a" );
+	FILE* logfile = fopen( STACK_LOG_FILENAME, "a" );
 	if( logfile == NULL )
 	{
 		error_output( error_variable, FOPEN_ERROR );
@@ -360,7 +360,7 @@ void remake_log( err_code* error_variable )
 	#ifndef NDEBUG
 
 
-	FILE* logfile = fopen( "stack_log.html", "w" );
+	FILE* logfile = fopen( STACK_LOG_FILENAME, "w" );
 	if( logfile == NULL )
 	{
 		error_output( error_variable, FOPEN_ERROR );

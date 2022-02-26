@@ -9,6 +9,7 @@
 #include <string.h>
 
 
+const char STACK_LOG_FILENAME[] = "stack_log.html";
 static const size_t MAXIMUM_ELEMENT_SIZE = 100;
 
 typedef int stk_element_t; //!!!
