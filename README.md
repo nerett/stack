@@ -13,7 +13,7 @@ git clone https://github.com/nerett/stack.git
 Install required packages automatically with
 
 ```bash
-make install-depend-pkg PACKAGEMANAGER=<your-package-manager-name> #apt is used by default
+make install-dependencies-pkg PACKAGEMANAGER=<your-package-manager-name> #apt is used by default
 ```
 
 ...or install them manually with your distro package manager (check list [here](https://github.com/nerett/stack#Dependencies)).
