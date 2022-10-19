@@ -1,7 +1,4 @@
-/bin
-/obj
-stack.cbp
-stack.layout
-/Debug
+Debug/
+Release/
 compile_run.sh
-stack_log.html
+*.html
