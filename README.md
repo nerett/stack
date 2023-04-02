@@ -5,7 +5,7 @@ This is a custom stack data structure implementation written in C (with some con
 `stack` automatically validates its state and writes `stack_log.html` (by default). Green `OK` lines indicate, that everything goes normally, and red `ERROR` lines appear when a problem occurs (in this case all values of struct Stack are dumped).
 
 ##### Log example:
-
+![log-example](https://user-images.githubusercontent.com/89396128/229367229-48262d8d-b9d6-4a66-9ac3-c841f10bcde0.png)
 
 ## Building from source
 #### Downloading
